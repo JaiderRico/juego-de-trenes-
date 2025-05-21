@@ -2,14 +2,15 @@
 #define CARTA_H
 
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 class Carta {
-private:
-    std::string color;
+    public:
+        string color;
 
-public:
-    Carta(const std::string& color);
-    std::string getColor() const;
+        Carta(string color);
 };
 
 #endif

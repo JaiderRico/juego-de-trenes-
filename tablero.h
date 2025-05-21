@@ -1,6 +1,9 @@
 #ifndef TABLERO_H
 #define TABLERO_H
 
+#include "carta.h"
+#include "mazo.h"
+
 #include <vector>
 #include <string>
 #include <map>
@@ -23,17 +26,20 @@ private:
     map<string, pair<int, int>> rutasletras;
     map<string, string> coloresRutas;
     vector<vector<string>> coloresFondo;
+    vector<Carta> cartasdisponibles;
+
 
 public:
     Tablero();
+    
     void CrearTablero();
-    void MostrarTablero();
-
-private:
+    void MostrarTablero(); 
     void AsignarRuta();
     void AsignarLetraRuta();
     void AsignarLetrasATablero();
     void AsignarColoresRutas();
+    void ponercartas(Carta cartas);
+    int contarEspaciosVacios();
 };
 
 #endif

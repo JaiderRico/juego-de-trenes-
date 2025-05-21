@@ -128,3 +128,13 @@ void Tablero::AsignarColoresRutas() {
         }
     }
 }
+
+void Tablero::ponercartas(Carta cartas)
+{
+    cartasdisponibles.push_back(cartas);
+}
+
+int Tablero::contarEspaciosVacios()
+{
+    return 0;
+}
