@@ -3,7 +3,9 @@
 
 #include "carta.h"
 #include "jugador.h"
-#include "tablero.h"
+
+class Tablero; 
+
 
 #include <iostream>
 #include <vector>
@@ -32,9 +34,9 @@ class Mazo{
 
         void crearMazo();
         void Barajar();
-        void MostrarMazo();
         void AgregarCarta(Carta carta);
-        vector<Carta> repartirCartas(Tablero& tablero);
+        void repartirCartas(Tablero& tablero);
+        void repartirCartasInciales(Tablero& tablero);
 };
 
 #endif

@@ -9,11 +9,13 @@ void Tablero::CrearTablero() {
 
     tablero = vector<vector<char>>(15, vector<char>(19, ' '));
     coloresFondo = vector<vector<string>>(15, vector<string>(19, ""));
-    
+    mazo.crearMazo();
+    mazo.repartirCartasInciales(*this);
     AsignarRuta();
     AsignarLetraRuta();
     AsignarLetrasATablero();
     AsignarColoresRutas();
+    mostrarCartasDisponibles();
 }
 
 void Tablero::MostrarTablero() {
@@ -129,12 +131,20 @@ void Tablero::AsignarColoresRutas() {
     }
 }
 
-void Tablero::ponercartas(Carta cartas)
+void Tablero::ponercartas(Carta& carta)
 {
-    cartasdisponibles.push_back(cartas);
+    cartasdisponibles.push_back(carta); 
+
+
 }
 
-int Tablero::contarEspaciosVacios()
+void Tablero::mostrarCartasDisponibles()
 {
-    return 0;
+    cout << "Cartas disponibles:" << endl;
+    for (int i = 0; i < cartasdisponibles.size(); i++) {
+        Carta carta = cartasdisponibles[i]; 
+        cout << carta.color << "[" << i+1 << "]" << RESET << " ";
+    }
+    cout << endl;
 }
+

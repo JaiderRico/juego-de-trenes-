@@ -1,4 +1,5 @@
 #include "mazo.h"
+#include "tablero.h"
 
 Mazo::Mazo()
 {
@@ -21,32 +22,28 @@ void Mazo::Barajar()
 
 }
 
-void Mazo::MostrarMazo()
-{
-    for (int i = 0; i < mazo.size(); ++i) {
-        cout << mazo[i].color << " ";
-        if ((i + 1) % 12 == 0) {
-            cout << endl;
-        }
-    }
-    cout << RESET;
-}
 
 void Mazo::AgregarCarta(Carta carta)
 {
     mazo.push_back(carta);
 }
 
-vector<Carta> Mazo::repartirCartas(Tablero &tablero)
+void Mazo::repartirCartas(Tablero &tablero)
 {
     vector<Carta> cartasrepartidas;
-int espaciovacio = tablero.contarEspaciosVacios();
-    for (int i = 0; i < espaciovacio; ++i) {
+    for (int i = 0; i < 2; ++i) {
         cartasrepartidas.push_back(mazo[i]);
         mazo.erase(mazo.begin());
         tablero.ponercartas(cartasrepartidas[i]);
     }
     
-    return cartasrepartidas;
 }
 
+void Mazo::repartirCartasInciales(Tablero &tablero)
+{
+    for (int i = 0; i < 4; ++i) {
+        Carta carta = mazo[i];
+        tablero.ponercartas(carta);
+        mazo.erase(mazo.begin());
+    }
+}

@@ -2,4 +2,5 @@
 
 Carta::Carta(string color)
 {
+    this->color = color;
 }

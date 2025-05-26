@@ -21,6 +21,7 @@ using namespace std;
 
 class Tablero {
 private:
+    Mazo mazo;
     vector<vector<char>> tablero;
     map<string, vector<pair<int, int>>> rutas;
     map<string, pair<int, int>> rutasletras;
@@ -38,8 +39,8 @@ public:
     void AsignarLetraRuta();
     void AsignarLetrasATablero();
     void AsignarColoresRutas();
-    void ponercartas(Carta cartas);
-    int contarEspaciosVacios();
+    void ponercartas(Carta& carta);
+    void mostrarCartasDisponibles();
 };
 
 #endif
