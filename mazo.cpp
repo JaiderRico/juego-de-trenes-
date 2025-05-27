@@ -1,5 +1,6 @@
 #include "mazo.h"
 #include "tablero.h"
+#include "carta.h"
 
 Mazo::Mazo()
 {

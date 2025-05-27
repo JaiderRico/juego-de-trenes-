@@ -9,7 +9,7 @@
 #include <string>
 
 using namespace std;
-class CartaDescartes {
+class MazoDescartes {
     public:
         vector<Carta> mazoDescartes;
 

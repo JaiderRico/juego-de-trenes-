@@ -1,16 +1,23 @@
 #include "tablero.h"
+#include "mazo.h"
+#include "jugador.h"
+#include "carta.h"
 
-
-Tablero::Tablero() {
+Tablero::Tablero() : mazo(new Mazo()) {
     CrearTablero();
 }
+
+Tablero::~Tablero() {
+    delete mazo;
+}
+
 
 void Tablero::CrearTablero() {
 
     tablero = vector<vector<char>>(15, vector<char>(19, ' '));
     coloresFondo = vector<vector<string>>(15, vector<string>(19, ""));
-    mazo.crearMazo();
-    mazo.repartirCartasInciales(*this);
+    mazo->crearMazo();
+    mazo->repartirCartasInciales(*this);
     AsignarRuta();
     AsignarLetraRuta();
     AsignarLetrasATablero();
@@ -148,3 +155,148 @@ void Tablero::mostrarCartasDisponibles()
     cout << endl;
 }
 
+bool Tablero::verificarCartas(string ruta, Jugador &jugador)
+{
+    for (char& x : ruta)
+        x = toupper(x);
+
+    string rutaInvertida = ruta;
+    reverse(rutaInvertida.begin(), rutaInvertida.end());
+
+    string rutaValida = "";
+    if (rutas.find(ruta) != rutas.end()) {
+        rutaValida = ruta;
+    } else if (rutas.find(rutaInvertida) != rutas.end()) {
+        rutaValida = rutaInvertida;
+    } else {
+        cout << "Ruta no válida." << endl;
+        return false;
+    }
+
+    int cantidad = rutas[rutaValida].size();
+
+    string colorNecesario = coloresRutas[rutaValida];
+
+    int contador = 0;
+    for (const Carta& carta : jugador.mano) {
+        if (carta.color == colorNecesario) {
+            contador++;
+        }
+    }
+
+    if (contador >= cantidad) {
+        cout << "Tienes suficientes cartas para reclamar la ruta " << rutaValida << endl;
+        int eliminadas = 0;
+        auto it = jugador.mano.begin();
+        while (it != jugador.mano.end() && eliminadas < cantidad) {
+            if (it->color == colorNecesario) {
+                mazoDescartes.agregarCarta(*it);
+                it = jugador.mano.erase(it);
+
+                eliminadas++;
+            } else {
+                ++it;
+            }
+        }
+        return true;
+    } else {
+        cout << "No tienes suficientes cartas del color " << colorNecesario << " para la ruta " << rutaValida << endl;
+        return false;
+    }
+}
+
+bool Tablero::verificarVagones(string ruta, Jugador& jugador)
+{
+    for (char& x : ruta)
+        x = toupper(x);
+
+    string rutaInvertida = ruta;
+    reverse(rutaInvertida.begin(), rutaInvertida.end());
+
+    if (rutas.find(ruta) != rutas.end()) {
+        int cantidad = rutas[ruta].size();
+        if (jugador.vagones >= cantidad) {
+            jugador.vagones -= cantidad;
+            return true;
+        } else {
+            cout << "No tienes suficientes vagones para la ruta " << ruta << endl;
+            return false;
+        }
+    }
+
+    if (rutas.find(rutaInvertida) != rutas.end()) {
+        int cantidad = rutas[rutaInvertida].size();
+        if (jugador.vagones >= cantidad) {
+            jugador.vagones -= cantidad;
+            return true;
+        } else {
+            cout << "No tienes suficientes vagones para la ruta " << rutaInvertida << endl;
+            return false;
+        }
+    }
+
+    cout << "Ruta no válida." << endl;
+    return false;
+}
+
+void Tablero::asignarRutaLetra(string ruta, char letra)
+{
+    // Convertimos a mayúsculas
+    for (char& c : ruta)
+        c = toupper(c);
+
+    string rutaInvertida = ruta;
+    reverse(rutaInvertida.begin(), rutaInvertida.end());
+
+    vector<pair<int, int>> coordenadas;
+
+    if (rutas.find(ruta) != rutas.end()) {
+        coordenadas = rutas[ruta];
+    } else if (rutas.find(rutaInvertida) != rutas.end()) {
+        coordenadas = rutas[rutaInvertida];
+    } else {
+        cout << "Ruta no encontrada." << endl;
+        return;
+    }
+
+    for (const auto& coord : coordenadas) {
+        int fila = coord.first;
+        int columna = coord.second;
+        if (fila >= 0 && fila < tablero.size() && columna >= 0 && columna < tablero[0].size()) {
+            tablero[fila][columna] = letra;
+        }
+    }
+}
+
+int Tablero::puntosRuta(string ruta)
+{
+    for (char& c : ruta)
+        c = toupper(c);
+
+    string rutaInvertida = ruta;
+    reverse(rutaInvertida.begin(), rutaInvertida.end());
+
+    if (rutas.find(ruta) != rutas.end()) {
+        switch (rutas[ruta].size()) {
+            case 2: return 1;
+            case 3: return 2;
+            case 4: return 4;
+            case 5: return 6;
+            case 6: return 9;
+            default: return 0;
+        }
+    } 
+    else if (rutas.find(rutaInvertida) != rutas.end()) {
+        switch (rutas[rutaInvertida].size()) {
+            case 2: return 1;
+            case 3: return 2;
+            case 4: return 4;
+            case 5: return 6;
+            case 6: return 9;
+            default: return 0;
+        }
+    }
+    
+    cout << "Ruta no encontrada." << endl;
+    return 0;
+}

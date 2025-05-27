@@ -1,9 +1,7 @@
 #ifndef MAZO_H
 #define MAZO_H
 
-#include "carta.h"
-#include "jugador.h"
-
+class Carta;
 class Tablero; 
 
 
