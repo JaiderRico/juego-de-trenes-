@@ -1,22 +1,20 @@
 #ifndef CARTADESCARTES_H
 #define CARTADESCARTES_H
 
-#include "mazo.h"
 #include "carta.h"
-
-#include <iostream>
 #include <vector>
-#include <string>
 
 using namespace std;
+
+class Mazo;  
+
 class MazoDescartes {
-    public:
-        vector<Carta> mazoDescartes;
+public:
+    vector<Carta> mazoDescartes;
 
-        void agregarCarta(Carta carta);
-        void barajar();
-        void entregarmazo(Mazo& mazo);
-
+    void agregarCarta(Carta carta);
+    void barajar();
+    void entregarmazo(Mazo& mazo);
 };
 
 #endif

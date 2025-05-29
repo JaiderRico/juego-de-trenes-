@@ -10,6 +10,7 @@ class Carta {
     public:
         string color;
 
+        Carta();
         Carta(string color);
 };
 

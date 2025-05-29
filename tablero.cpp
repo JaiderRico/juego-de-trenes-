@@ -1,19 +1,18 @@
 #include "tablero.h"
-#include "mazo.h"
 #include "jugador.h"
-#include "carta.h"
+#include <algorithm> 
+#include <cctype>    
 
-Tablero::Tablero() : mazo(new Mazo()) {
+Tablero::Tablero() {
+    mazo = new Mazo();
+    mazo->crearMazo();  
     CrearTablero();
 }
-
 Tablero::~Tablero() {
     delete mazo;
 }
 
-
 void Tablero::CrearTablero() {
-
     tablero = vector<vector<char>>(15, vector<char>(19, ' '));
     coloresFondo = vector<vector<string>>(15, vector<string>(19, ""));
     mazo->crearMazo();
@@ -22,9 +21,7 @@ void Tablero::CrearTablero() {
     AsignarLetraRuta();
     AsignarLetrasATablero();
     AsignarColoresRutas();
-    mostrarCartasDisponibles();
 }
-
 void Tablero::MostrarTablero() {
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 19; ++j) {
@@ -138,19 +135,20 @@ void Tablero::AsignarColoresRutas() {
     }
 }
 
-void Tablero::ponercartas(Carta& carta)
-{
-    cartasdisponibles.push_back(carta); 
-
-
+void Tablero::ponercartas(Carta& carta) {
+    // Limitar a 5 cartas visibles máximo
+    if (cartasdisponibles.size() < 5) {
+        cartasdisponibles.push_back(carta);
+    } else {
+        // Si ya hay 5 cartas, va al mazo de descartes
+        mazoDescartes.agregarCarta(carta);
+    }
 }
 
-void Tablero::mostrarCartasDisponibles()
-{
+void Tablero::mostrarCartasDisponibles() {
     cout << "Cartas disponibles:" << endl;
     for (int i = 0; i < cartasdisponibles.size(); i++) {
-        Carta carta = cartasdisponibles[i]; 
-        cout << carta.color << "[" << i+1 << "]" << RESET << " ";
+        cout << cartasdisponibles[i].color << "[" << (i+1) << "]" << RESET << " ";
     }
     cout << endl;
 }

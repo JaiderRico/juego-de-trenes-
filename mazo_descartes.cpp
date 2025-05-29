@@ -1,4 +1,7 @@
 #include "mazo_descartes.h"
+#include "mazo.h"
+#include <random>    
+#include <algorithm> 
 
 void MazoDescartes::agregarCarta(Carta carta)
 {
@@ -12,11 +15,9 @@ void MazoDescartes::barajar()
     shuffle(mazoDescartes.begin(), mazoDescartes.end(), generador);
 }
 
-void MazoDescartes::entregarmazo(Mazo& mazo)
-{
-    for (int i = 0; i < mazoDescartes.size(); ++i) {
-        mazo.AgregarCarta(mazoDescartes[i]);
-        mazoDescartes.erase(mazoDescartes.begin());
+void MazoDescartes::entregarmazo(Mazo& mazo) {
+    while (!mazoDescartes.empty()) {
+        mazo.AgregarCarta(mazoDescartes.back());
+        mazoDescartes.pop_back();
     }
-    cout << RESET;
 }

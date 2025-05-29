@@ -1,6 +1,9 @@
 #include "carta.h"
 
-Carta::Carta(string color)
-{
+Carta::Carta() {
+    color = "";
+}
+
+Carta::Carta(string color) {
     this->color = color;
 }
