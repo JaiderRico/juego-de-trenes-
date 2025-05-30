@@ -29,10 +29,10 @@ bool Jugador::hacerRuta(Tablero& tablero, string ruta){
         char letra = nombre[0]; // Usar inicial del jugador, por ejemplo
         tablero.asignarRutaLetra(ruta, letra);
         puntos += tablero.puntosRuta(ruta); // o los puntos reales de la ruta
-        cout<< "¡Ruta " << ruta << " reclamada con éxito!" << endl;
+        cout<< "¡Ruta " << ruta << " reclamada con éxito!" << RESET << endl;
         return true;
     } else {
-        cout<< "No puedes reclamar la ruta " << ruta << "." << endl;
+        cout<< "No puedes reclamar la ruta " << ruta << "."<< RESET << endl;
         return false;
     }
 }

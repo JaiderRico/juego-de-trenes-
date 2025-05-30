@@ -28,7 +28,7 @@ void Juego::jugarRondas() {
             bool turnoCompletado = false;
             while (!turnoCompletado) {
                 int opcion;
-                cout << "1. Tomar cartas\n2. Reclamar ruta\n3. Ver mano\nOpción: ";
+                cout << "1. Tomar cartas\n2. Reclamar ruta\n3. Ver mano\nOpcion: ";
                 cin >> opcion;
 
                 switch (opcion) {
@@ -40,15 +40,22 @@ void Juego::jugarRondas() {
                         string ruta;
                         cout << "Ingresa la ruta (ej. AB, GC): ";
                         cin >> ruta;
-                        jugador.hacerRuta(tablero, ruta);
-                        turnoCompletado = true;
+
+                        bool exito = jugador.hacerRuta(tablero, ruta);
+                        if (exito) {
+                            turnoCompletado = true;
+
+                        } else {
+                            turnoCompletado = false;
+
+                        }
                         break;
                     }
                     case 3:
                         jugador.mostrarMano();
                         break; // se queda en el turno
                     default:
-                        cout << "Opción inválida." << endl;
+                        cout << "Opción invalida." << endl;
                         break;
                 }
             }
